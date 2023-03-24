@@ -4,6 +4,8 @@ import { useState } from 'react';
 function App() {
   const [buttonColor, setButtonColor] = useState('red');
   const newButtonColor = buttonColor === 'red' ? 'blue' : 'red';
+
+  const [buttonStatus, setButtonStatus] = useState(false);
   return (
     <div>
       <button
@@ -11,10 +13,11 @@ function App() {
         onClick={() => {
           setButtonColor(newButtonColor);
         }}
+        disabled={buttonStatus}
       >
         Change to {newButtonColor}
       </button>
-      <input type='checkbox' />
+      <input type='checkbox' onClick={() => setButtonStatus(!buttonStatus)} />
     </div>
   );
 }

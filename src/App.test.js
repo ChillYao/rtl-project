@@ -3,6 +3,7 @@ import App from './App';
 
 test('correct initial color, and updates when clicked', () => {
   render(<App />);
+
   // find the element by the role of button and initial text
   const colorButton = screen.getByRole('button', {
     name: 'Change to blue',
@@ -23,10 +24,27 @@ test('correct initial color, and updates when clicked', () => {
 
 test('initial conditions', () => {
   render(<App />);
+
   // check that the button starts out enabled
   const colorButton = screen.getByRole('button', { name: 'Change to blue' });
   expect(colorButton).toBeEnabled();
+
   // check that checkbox starts out unchecked
   const checkbox = screen.getByRole('checkbox');
+  expect(checkbox).not.toBeChecked();
+});
+
+test('checkbox checked, button disabled; checkbox unchecked, button enabled', async () => {
+  render(<App />);
+  const colorButton = screen.getByRole('button', { name: 'Change to blue' });
+  const checkbox = screen.getByRole('checkbox');
+  expect(checkbox).not.toBeChecked();
+
+  await fireEvent.click(checkbox);
+  expect(colorButton).toBeDisabled();
+  expect(checkbox).toBeChecked();
+
+  await fireEvent.click(checkbox);
+  expect(colorButton).toBeEnabled();
   expect(checkbox).not.toBeChecked();
 });
